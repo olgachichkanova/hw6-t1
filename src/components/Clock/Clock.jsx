@@ -5,7 +5,7 @@ import { AiOutlineClose } from "react-icons/ai"
 const Clock = ({city, timezone, handleDelete}) => {
     const [date, setDate] = useState(new Date());
     function refreshClock() {
-        setDate(new Date());
+      setDate(new Date());
     }
 
     useEffect(() => {

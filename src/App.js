@@ -1,6 +1,7 @@
 import './App.css';
 import Clock from './components/Clock/Clock';
 import Form from './components/Form/Form';
+import Error from './components/Error/Error';
 import { useState } from 'react';
 import shortid from "shortid";
 
@@ -23,19 +24,28 @@ function App() {
     }
   ])
 
+  const [error, setError] = useState("")
+  
+
   function onAddClock(e) {
       e.preventDefault();
-
-      const newClock = {
-        id: shortid.generate(),
-        city: form.city,
-        timezone: form.timezone
+      if(form.timezone.length > 0) {
+        const newClock = {
+          id: shortid.generate(),
+          city: form.city,
+          timezone: form.timezone
+        }
+        
+        setClocks((prevClocks) => [...prevClocks, newClock]);
+        setForm({
+          city: "",
+          timezone: ""
+        })
+        setError("")
+      } else {
+        setError("Timezone can't be blank")
+        return
       }
-      setClocks((prevClocks) => [...prevClocks, newClock]);
-      setForm({
-        city: "",
-        timezone: ""
-    })
   }
 
   function handleDelete(clock) {
@@ -45,7 +55,7 @@ function App() {
   return (
     <div className="App">
       <Form form={form} setForm={setForm} onAddClock={onAddClock} />
-      <div className='hint-wrapper'><a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">Check available timezones here</a></div>
+      {error.length > 0 ? <Error message={error} /> : null}
       <div className="clocks-wrapper">
         {clocks.map(i => <Clock key={i.id} city={i.city} timezone={i.timezone} handleDelete={() => handleDelete(i)} />)}
       </div>

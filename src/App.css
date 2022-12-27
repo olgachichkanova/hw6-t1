@@ -24,6 +24,13 @@ form {
   justify-content: space-around;
   padding: 50px 0;
 }
+ form div {
+  display: inline-block;
+}
+
+form button {
+  margin-left: 20px;
+}
 
 input {
   outline: none;
